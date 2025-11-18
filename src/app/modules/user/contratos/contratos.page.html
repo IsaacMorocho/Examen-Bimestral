@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button (click)="goBack()" text="" defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Mis Contrataciones</ion-title>
+    <ion-title><ion-icon name="document-lock-outline"></ion-icon> Mis Contratos</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -49,20 +49,20 @@
               (click)="goToChat(contrato.id)"
               class="chat-btn"
             >
-              <ion-icon slot="start" name="chatbubble"></ion-icon>
-              Chat con Asesor
+              <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
+              Contactar Asesor
             </ion-button>
           </div>
         </ion-card-content>
       </ion-card>
 
       <div *ngIf="!(contrataciones$ | async) || (contrataciones$ | async)?.length === 0" class="no-contratos">
-        <ion-icon name="briefcase-outline"></ion-icon>
-        <h3>Sin contrataciones</h3>
-        <p>Aún no tienes planes contratados. Explora nuestro catálogo para contratar uno.</p>
+        <ion-icon name="document-outline"></ion-icon>
+        <h3>Ningún contrato registrado</h3>
+        <p>Aún no tienes planes activos. Navega al catálogo para contratar.</p>
         <ion-button color="primary" [routerLink]="['/catalog']">
-          <ion-icon slot="start" name="add-circle"></ion-icon>
-          Explorar Planes
+          <ion-icon slot="start" name="add-outline"></ion-icon>
+          Ver Catálogo
         </ion-button>
       </div>
     </div>

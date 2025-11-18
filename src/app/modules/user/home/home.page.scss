@@ -1,261 +1,457 @@
 ion-toolbar {
-  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --background: linear-gradient(135deg, #e63946 0%, #1d3557 100%);
   --border-color: transparent;
 }
 
-ion-title {
-  color: white;
-  font-weight: bold;
+.header-logo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .header-logo-img {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+  }
 }
 
 ion-button {
-  color: white;
+  color: #ffffff;
 }
 
 .home-content {
-  --background: #f7f8fa;
+  --background: #f1faee;
+  padding: 0;
 }
 
-.welcome-card {
+/* Welcome Hero Section */
+.welcome-hero {
+  background: linear-gradient(135deg, #e63946 0%, #1d3557 100%);
+  padding: 32px 20px;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 16px;
-  padding: 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
-  color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    animation: drift 15s linear infinite;
+  }
 
   .welcome-content {
+    position: relative;
+    z-index: 2;
     flex: 1;
 
     h1 {
-      font-size: 24px;
-      font-weight: bold;
-      margin: 0 0 8px 0;
+      font-size: 28px;
+      font-weight: 800;
+      margin: 0 0 8px;
+      letter-spacing: 0.5px;
 
-      span {
-        color: #ffd700;
+      .name-highlight {
+        color: #a8dadc;
+        font-weight: 800;
       }
     }
 
-    p {
-      font-size: 13px;
+    .welcome-text {
+      font-size: 14px;
       margin: 0;
-      opacity: 0.9;
+      opacity: 0.95;
+      font-weight: 300;
     }
   }
 
   .welcome-icon {
-    font-size: 48px;
-    opacity: 0.3;
-    margin-left: 12px;
+    font-size: 64px;
+    opacity: 0.2;
+    flex-shrink: 0;
   }
 }
 
+@keyframes drift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(30px, 30px); }
+}
+
+/* Quick Actions */
 .quick-actions {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   padding: 16px;
+  background: white;
+  margin-bottom: 8px;
 
-  .action-card {
-    margin: 0;
-    border-radius: 8px;
+  .action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    text-align: center;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    }
-
-    ion-card-content {
-      padding: 16px;
-      text-align: center;
-
-      ion-icon {
-        font-size: 40px;
-        color: #667eea;
-        margin-bottom: 8px;
-      }
-
-      h3 {
-        font-size: 14px;
-        font-weight: bold;
-        margin: 8px 0 4px 0;
-        color: #2c3e50;
-      }
-
-      p {
-        font-size: 12px;
-        color: #7f8c8d;
-        margin: 0;
-      }
-    }
-  }
-}
-
-.featured-section {
-  padding: 16px;
-
-  h2 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #2c3e50;
-    margin: 0 0 12px 0;
-  }
-
-  .featured-slider {
-    padding-bottom: 16px;
-  }
-
-  .featured-card {
-    margin: 0 8px;
+    transition: all 0.3s ease;
     border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #f9fbfc;
+    border: 1px solid #e0e7f0;
 
-    .featured-image {
-      width: 100%;
-      height: 160px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    &:hover {
+      border-color: #e63946;
+      background: #fff5f7;
+      transform: translateY(-2px);
+    }
+
+    .action-icon-bg {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e63946 0%, #1d3557 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+      margin-bottom: 12px;
 
       ion-icon {
-        font-size: 60px;
-        color: rgba(255, 255, 255, 0.3);
+        font-size: 28px;
+        color: white;
       }
     }
 
-    ion-card-content {
-      padding: 12px;
+    h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1d3557;
+      margin: 0 0 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
 
-      h3 {
-        font-size: 14px;
-        font-weight: bold;
-        margin: 0 0 4px 0;
-        color: #2c3e50;
-      }
-
-      .plan-price {
-        font-size: 16px;
-        font-weight: bold;
-        color: #667eea;
-        margin: 4px 0 8px 0;
-      }
+    p {
+      font-size: 11px;
+      color: #457b9d;
+      margin: 0;
+      font-weight: 500;
     }
   }
 }
 
-.segment-básico {
-  --background: #3498db;
+/* Recommended Plans Section */
+.recommended-section {
+  padding: 24px 16px 0;
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1d3557;
+      margin: 0;
+      letter-spacing: 0.3px;
+    }
+
+    ion-icon {
+      font-size: 24px;
+      color: #e63946;
+    }
+  }
+
+  .plans-carousel {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #a8dadc;
+      border-radius: 2px;
+    }
+  }
 }
 
-.segment-medio {
-  --background: #f39c12;
+.plan-item-card {
+  flex-shrink: 0;
+  width: 160px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #e0e7f0;
+
+  &:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+  }
+
+  .plan-card-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(135deg, #e63946 0%, #1d3557 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .placeholder {
+      font-size: 50px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .plan-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+
+  .plan-card-info {
+    padding: 12px;
+
+    h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1d3557;
+      margin: 0 0 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: #e63946;
+      margin: 4px 0 8px;
+    }
+
+    .card-features {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .feature {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 10px;
+        color: #457b9d;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        ion-icon {
+          font-size: 12px;
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+
+  .plan-cta {
+    display: none;
+  }
 }
 
-.segment-premium {
-  --background: #e74c3c;
-}
-
+/* All Plans Section */
 .all-plans-section {
-  padding: 16px;
+  padding: 24px 16px;
+  background: white;
+  margin-top: 8px;
 
   h2 {
     font-size: 18px;
-    font-weight: bold;
-    color: #2c3e50;
-    margin: 0 0 12px 0;
+    font-weight: 700;
+    color: #1d3557;
+    margin: 0 0 16px;
+    letter-spacing: 0.3px;
   }
 
-  .plans-grid {
-    display: grid;
-    grid-template-columns: 1fr;
+  .plans-list {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
+  }
+}
 
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
+.plan-item-horizontal {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f9fbfc;
+  border-radius: 12px;
+  border: 1px solid #e0e7f0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 4px solid #e63946;
+
+  &:active {
+    transform: scale(0.98);
   }
 
-  .plan-card {
-    margin: 0;
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .plan-thumbnail {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
     border-radius: 8px;
     overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(135deg, #e63946 0%, #1d3557 100%);
 
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
-    .plan-image-container {
+    .placeholder {
       width: 100%;
-      height: 120px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      ion-icon {
-        font-size: 50px;
-        color: rgba(255, 255, 255, 0.3);
-      }
+      font-size: 36px;
+      color: rgba(255, 255, 255, 0.5);
     }
 
-    ion-card-content {
-      padding: 12px;
+    .segment-badge {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 9px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
 
-      h3 {
-        font-size: 14px;
-        font-weight: bold;
-        margin: 0 0 4px 0;
-        color: #2c3e50;
-      }
+  .plan-info {
+    flex: 1;
+    min-width: 0;
 
-      .price {
-        font-size: 16px;
-        font-weight: bold;
-        color: #667eea;
-        margin: 4px 0;
-      }
+    h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1d3557;
+      margin: 0 0 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-      .description {
-        font-size: 11px;
-        color: #7f8c8d;
-        margin: 0;
+    .desc {
+      font-size: 11px;
+      color: #457b9d;
+      margin: 0 0 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .specs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: #a8dadc;
+
+      span {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        white-space: nowrap;
+
+        ion-icon {
+          font-size: 12px;
+        }
       }
+    }
+  }
+
+  .price-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+
+    .price {
+      font-size: 16px;
+      font-weight: bold;
+      color: #e63946;
+    }
+
+    ion-icon {
+      font-size: 18px;
+      color: #a8dadc;
     }
   }
 }
 
+/* Logout Section */
 .logout-section {
-  padding: 16px;
-  margin-bottom: 20px;
+  padding: 20px 16px 40px;
+  background: white;
 
   ion-button {
+    --background: transparent;
+    --border-color: #e63946;
     height: 48px;
-    font-weight: 600;
+    font-weight: 700;
+    border-radius: 12px;
+  }
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .quick-actions {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .plan-item-card {
+    width: 180px;
   }
 }

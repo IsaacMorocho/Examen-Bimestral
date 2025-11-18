@@ -19,14 +19,12 @@ export class AuthService {
     private initializeAuth(): void {
         const supabase = this.supabaseService.getClient();
 
-        // Verificar sesión existente
         supabase.auth.getSession().then(({ data }) => {
             if (data.session?.user) {
                 this.loadUserProfile(data.session.user.id);
             }
         });
 
-        // Escuchar cambios de autenticación
         supabase.auth.onAuthStateChange((event, session) => {
             if (session?.user) {
                 this.loadUserProfile(session.user.id);
@@ -91,12 +89,8 @@ export class AuthService {
                 const userId = data.user.id;
 
                 try {
-                    // IMPORTANTE: Esperar 500ms para que el usuario se propague en la BD
-                    // Supabase necesita tiempo para sincronizar auth.users entre servidores
                     await new Promise(resolve => setTimeout(resolve, 500));
 
-                    // Llamar función SQL segura que bypassa RLS
-                    // Esta función usa SECURITY DEFINER y crea el perfil sin problemas
                     const { error: funcError, data: funcResult } = await supabase
                         .rpc('crear_perfil_usuario', {
                             p_user_id: userId,
@@ -115,7 +109,6 @@ export class AuthService {
 
                     console.log('Perfil creado exitosamente:', funcResult);
 
-                    // 🔥 MAPEO CORRECTO AL MODELO User
                     const mappedUser: User = {
                         id: data.user.id,
                         email: data.user.email ?? '',
@@ -155,10 +148,8 @@ export class AuthService {
         })).pipe(
             switchMap(({ data, error }) => {
                 if (error) {
-                    // Manejar errores de lock manager
                     if (error.message && error.message.includes('NavigatorLock')) {
                         console.warn('Lock manager error, retrying...', error);
-                        // Reintentar después de un pequeño delay
                         return Promise.resolve({ error: 'Intenta nuevamente. Error de sincronización.' } as AuthResponse);
                     }
                     return Promise.resolve({ error: error.message } as AuthResponse);
@@ -174,7 +165,6 @@ export class AuthService {
                 console.error('Login error:', err);
                 const errorMessage = err?.message || 'Error al iniciar sesión';
 
-                // Manejar errores de lock manager
                 if (errorMessage.includes('NavigatorLock') || errorMessage.includes('lock')) {
                     return Promise.resolve({ error: 'Intenta nuevamente. Por favor espera un momento.' } as AuthResponse);
                 }
@@ -187,63 +177,39 @@ export class AuthService {
     loginAdvisor(email: string, password: string): Observable<AuthResponse> {
         const supabase = this.supabaseService.getClient();
 
-        // Primero, validar que el asesor existe en la tabla de asesores
-        return from(supabase
-            .from('asesores')
-            .select('*')
-            .eq('email', email)
-            .single()
-        ).pipe(
-            switchMap(async ({ data: advisor, error: advisorError }) => {
-                if (advisorError || !advisor) {
+        return from(supabase.auth.signInWithPassword({ email, password })).pipe(
+            switchMap(async ({ data: authData, error: authError }) => {
+                if (authError || !authData.user) {
                     return { error: 'Credenciales de asesor no válidas' } as AuthResponse;
                 }
 
                 try {
-                    // Obtener el campo de contraseña (puede ser password o password_hash)
-                    const passwordField = advisor.password || advisor.password_hash;
+                    const { data: perfil, error: perfilError } = await supabase
+                        .from('perfiles')
+                        .select('*')
+                        .eq('user_id', authData.user.id)
+                        .eq('rol', 'asesor_comercial')
+                        .single();
 
-                    if (!passwordField) {
-                        console.error('No hay campo de contraseña en el registro del asesor');
-                        return { error: 'Error en configuración de asesor' } as AuthResponse;
+                    if (perfilError || !perfil) {
+                        await supabase.auth.signOut();
+                        return { error: 'Usuario no autorizado como asesor' } as AuthResponse;
                     }
 
-                    let isPasswordValid = false;
-
-                    // Si la contraseña parece estar hasheada (comienza con $2a$ o $2b$), usar bcryptjs
-                    if (passwordField.startsWith('$2a$') || passwordField.startsWith('$2b$')) {
-                        isPasswordValid = await bcryptjs.compare(password, passwordField);
-                    } else {
-                        // Si no está hasheada, comparar directamente (para pruebas)
-                        isPasswordValid = password === passwordField;
-                    }
-
-                    if (!isPasswordValid) {
-                        return { error: 'Contraseña incorrecta' } as AuthResponse;
-                    }
-
-                    // Validar que el asesor está activo
-                    if (advisor.activo === false) {
-                        return { error: 'Asesor inactivo' } as AuthResponse;
-                    }
-
-                    // Crear objeto de usuario para el asesor
                     const asesorUser: User = {
-                        id: advisor.id,
-                        email: advisor.email,
-                        full_name: advisor.nombre || advisor.full_name,
-                        phone: advisor.telefono,
+                        id: authData.user.id,
+                        email: authData.user.email || '',
+                        full_name: perfil.full_name || '',
+                        phone: perfil.phone,
                         role: 'asesor_comercial',
-                        avatar_url: advisor.foto_perfil,
-                        created_at: advisor.created_at,
-                        updated_at: advisor.updated_at
+                        avatar_url: perfil.avatar_url,
+                        created_at: perfil.created_at,
+                        updated_at: perfil.updated_at
                     };
 
-                    // Actualizar estado global del usuario
                     this.currentUser$.next(asesorUser);
                     this.isAuthenticated$.next(true);
 
-                    // Retornar datos del asesor
                     return {
                         user: asesorUser
                     } as AuthResponse;

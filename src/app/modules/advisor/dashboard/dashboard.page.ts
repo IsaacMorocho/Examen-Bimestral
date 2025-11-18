@@ -21,6 +21,7 @@ export class DashboardPage implements OnInit {
   planes$: Observable<Plan[]>;
   contratacionesPendientes$: Observable<ContratacionDetalle[]>;
   stats$: Observable<any>;
+  fabOpen = false;
 
   constructor(
     private authService: AuthService,
@@ -45,6 +46,10 @@ export class DashboardPage implements OnInit {
   }
 
   ngOnInit() {}
+
+  toggleFAB() {
+    this.fabOpen = !this.fabOpen;
+  }
 
   goToCreatePlan() {
     this.router.navigate(['/advisor/plan-form']);

@@ -1,14 +1,14 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button (click)="goBack()" text="" defaultHref="/mis-contrataciones"></ion-back-button>
+      <ion-back-button (click)="goBack()" text="" defaultHref="/advisor/chat-list"></ion-back-button>
     </ion-buttons>
     <div class="header-content">
       <ion-title>
         <ion-icon name="chatbubble-outline" class="title-icon"></ion-icon>
-        {{ contratacion?.id ? 'Soporte' : 'Cargando...' }}
+        {{ contratacion ? contratacion?.usuario_nombre || 'Chat' : 'Cargando...' }}
       </ion-title>
-      <p class="header-subtitle" *ngIf="contratacion">Plan contratado</p>
+      <p class="header-subtitle" *ngIf="contratacion">{{ contratacion.plan_nombre }}</p>
     </div>
   </ion-toolbar>
 </ion-header>
@@ -33,12 +33,12 @@
       <span></span>
       <span></span>
       <span></span>
-      <p class="typing-text">El asesor está escribiendo...</p>
+      <p class="typing-text">El cliente está escribiendo...</p>
     </div>
 
     <div *ngIf="!(mensajes$ | async) || (mensajes$ | async)?.length === 0" class="no-messages">
       <ion-icon name="chatbubble-outline"></ion-icon>
-      <p>Comienza a escribir para contactar a tu asesor</p>
+      <p>Comienza la conversaçión con el cliente</p>
     </div>
   </div>
 </ion-content>
@@ -49,7 +49,7 @@
       <ion-input 
         [(ngModel)]="newMessage"
         (ngModelChange)="onMessageInputChange($event)"
-        placeholder="Tu mensaje..."
+        placeholder="Tu respuesta..."
         (keyup.enter)="sendMessage()"
         clearInput
       ></ion-input>

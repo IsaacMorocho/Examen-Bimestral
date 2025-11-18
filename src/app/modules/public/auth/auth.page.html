@@ -1,238 +1,246 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button *ngIf="!showRoleSelection" (click)="goBackToRoleSelection()" defaultHref="/splash" text=""></ion-back-button>
+      <ion-back-button *ngIf="!showRoleSelection" (click)="goBackToRoleSelection()" text=""></ion-back-button>
       <ion-back-button *ngIf="showRoleSelection" defaultHref="/splash" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>TIGO Conecta</ion-title>
+    <ion-title></ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="auth-container">
-  <!-- Background Gradient -->
-  <div class="gradient-bg"></div>
-
-  <!-- Logo Section -->
-  <div class="logo-section">
-    <div class="logo-circle">
-      <ion-icon name="phone-portrait-outline"></ion-icon>
+  <div *ngIf="showRoleSelection" class="role-selection-screen">
+    <div class="logo-section-hero">
+      <div class="logo-wrapper">
+        <img src="assets/images/logoTigo.png" alt="Tigo Conecta" class="logo-image">
+      </div>
+      <h1 class="app-title">TIGO<span class="conecta">Conecta</span></h1>
+      <p class="app-subtitle">Contrata planes telefonicos con nosotros!</p>
     </div>
-    <h1>TIGO Conecta</h1>
-    <p class="tagline">Gestiona tus planes móviles</p>
-  </div>
 
-  <!-- Role Selection Screen -->
-  <div *ngIf="showRoleSelection" class="role-selection">
-    <h2>¿Cómo deseas ingresar?</h2>
-    <p class="subtitle">Selecciona tu tipo de acceso</p>
-
-    <div class="role-buttons">
-      <ion-card class="role-card" (click)="selectRole('usuario')">
-        <ion-card-content>
-          <div class="role-icon usuario">
+    <div class="role-selector">
+      <h2 class="selector-title">Selecciona tu tipo de rol en nuestro sistema</h2>
+      
+      <div class="role-circles-container">
+        <div 
+          class="role-circle-btn cliente"
+          [class.selected]="selectedRole === 'usuario'"
+          (click)="selectRole('usuario')"
+        >
+          <div class="circle-bg"></div>
+          <div class="circle-content">
             <ion-icon name="person-circle"></ion-icon>
+            <span>Cliente</span>
           </div>
-          <h3>Usuario</h3>
-          <p>Acceso a planes y contratos</p>
-        </ion-card-content>
-      </ion-card>
+        </div>
 
-      <ion-card class="role-card" (click)="selectRole('asesor')">
-        <ion-card-content>
-          <div class="role-icon asesor">
+        <div 
+          class="role-circle-btn asesor"
+          [class.selected]="selectedRole === 'asesor'"
+          (click)="selectRole('asesor')"
+        >
+          <div class="circle-bg"></div>
+          <div class="circle-content">
             <ion-icon name="briefcase-outline"></ion-icon>
+            <span>Asesor</span>
           </div>
-          <h3>Asesor</h3>
-          <p>Gestión de planes y clientes</p>
-        </ion-card-content>
-      </ion-card>
+        </div>
+      </div>
+
+      <p class="role-hint">{{ selectedRole ? 'Toca continuar abajo' : 'Selecciona un rol' }}</p>
+    </div>
+
+    <div class="continue-section" *ngIf="selectedRole">
+      <ion-button 
+        expand="block" 
+        color="primary" 
+        (click)="continueWithRole()"
+        class="continue-btn"
+      >
+        <ion-icon name="arrow-forward"></ion-icon>
+        Continuar
+      </ion-button>
     </div>
   </div>
 
-  <!-- Login/Register Forms -->
-  <div *ngIf="!showRoleSelection">
-    <!-- Toggle Tabs - Solo mostrar registro si es usuario normal -->
-    <div class="auth-tabs" *ngIf="selectedRole === 'usuario'">
+  <div *ngIf="!showRoleSelection" class="auth-forms-screen">
+    <div class="logo-mini">
+      <img src="assets/images/logoTigo.png" alt="Tigo" class="logo-small">
+      <span class="role-label">{{ selectedRole === 'asesor' ? 'Portal de Asesor' : 'Portal de Cliente' }}</span>
+    </div>
+
+    <div class="floating-tabs" *ngIf="selectedRole === 'usuario'">
       <button
         [class.active]="!showRegister"
+        [class.inactive]="showRegister"
         (click)="showRegister = false"
-        class="tab-button"
+        class="float-tab login-tab"
       >
-        Iniciar Sesión
+        <ion-icon name="log-in-outline"></ion-icon>
+        <span>Ingresar</span>
       </button>
       <button
         [class.active]="showRegister"
+        [class.inactive]="!showRegister"
         (click)="showRegister = true"
-        class="tab-button"
+        class="float-tab register-tab"
       >
-        Registrarse
+        <ion-icon name="person-add-outline"></ion-icon>
+        <span>Crear</span>
       </button>
     </div>
 
-    <!-- Login Form -->
-    <form *ngIf="!showRegister || selectedRole === 'asesor'" [formGroup]="loginForm" (ngSubmit)="login()" class="auth-form">
-      <ion-card class="form-card">
-        <ion-card-content>
-          <!-- Role Display -->
-          <div class="role-display" [class.usuario]="selectedRole === 'usuario'" [class.asesor]="selectedRole === 'asesor'">
-            <ion-icon [name]="selectedRole === 'asesor' ? 'briefcase' : 'person'"></ion-icon>
-            <span>{{ selectedRole === 'asesor' ? 'Ingreso como Asesor' : 'Ingreso como Usuario' }}</span>
-          </div>
+    <h2 class="form-title" *ngIf="selectedRole === 'asesor'">
+      <ion-icon name="briefcase-outline"></ion-icon>
+      Acceso de Asesor
+    </h2>
 
-          <!-- Email -->
-          <ion-item class="input-item">
-            <ion-label position="floating">Correo Electrónico</ion-label>
-            <ion-input
-              type="email"
-              formControlName="email"
-              placeholder="tu@email.com"
-              required
-            ></ion-input>
-          </ion-item>
-          <div class="error-message" *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
-            El correo es requerido
-          </div>
-          <div class="error-message" *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
-            Ingresa un correo válido
-          </div>
+    <form *ngIf="!showRegister || selectedRole === 'asesor'" [formGroup]="loginForm" (ngSubmit)="login()" class="direct-form login-form">
+      <div class="input-wrapper">
+        <ion-icon name="mail" class="input-icon"></ion-icon>
+        <ion-input
+          type="email"
+          formControlName="email"
+          placeholder="Correo electrónico"
+          class="direct-input"
+        ></ion-input>
+      </div>
+      <div class="error-message" *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
+        <ion-icon name="alert-circle"></ion-icon>
+        El correo es requerido
+      </div>
+      <div class="error-message" *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
+        <ion-icon name="alert-circle"></ion-icon>
+        Correo inválido
+      </div>
 
-          <!-- Password -->
-          <ion-item class="input-item">
-            <ion-label position="floating">Contraseña</ion-label>
-            <ion-input
-              type="password"
-              formControlName="password"
-              placeholder="••••••••"
-              required
-            ></ion-input>
-          </ion-item>
-          <div class="error-message" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
-            La contraseña es requerida
-          </div>
+      <div class="input-wrapper">
+        <ion-icon name="lock-closed" class="input-icon"></ion-icon>
+        <ion-input
+          type="password"
+          formControlName="password"
+          placeholder="Contraseña"
+          class="direct-input"
+        ></ion-input>
+      </div>
+      <div class="error-message" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+        <ion-icon name="alert-circle"></ion-icon>
+        La contraseña es requerida
+      </div>
 
-          <!-- Submit Button -->
-          <ion-button
-            expand="block"
-            color="primary"
-            type="submit"
-            class="auth-button"
-            [disabled]="!loginForm.valid || isLoadingLogin"
-          >
-            <ion-spinner *ngIf="isLoadingLogin" name="circles"></ion-spinner>
-            <span *ngIf="!isLoadingLogin">Ingresar como {{ selectedRole === 'asesor' ? 'Asesor' : 'Usuario' }}</span>
-          </ion-button>
-        </ion-card-content>
-      </ion-card>
+      <ion-button
+        expand="block"
+        color="primary"
+        type="submit"
+        class="submit-btn"
+        [disabled]="!loginForm.valid || isLoadingLogin"
+      >
+        <ion-spinner *ngIf="isLoadingLogin" name="circles"></ion-spinner>
+        <ion-icon *ngIf="!isLoadingLogin" name="log-in-outline"></ion-icon>
+        <span *ngIf="!isLoadingLogin">Acceder</span>
+      </ion-button>
     </form>
 
-    <!-- Register Form -->
-    <form *ngIf="showRegister" [formGroup]="registerForm" (ngSubmit)="register()" class="auth-form">
-      <ion-card class="form-card">
-        <ion-card-content>
-          <!-- Full Name -->
-          <ion-item class="input-item">
-            <ion-label position="floating">Nombre Completo</ion-label>
-            <ion-input
-              type="text"
-              formControlName="fullName"
-              placeholder="Tu nombre"
-              required
-            ></ion-input>
-          </ion-item>
-          <div class="error-message" *ngIf="registerForm.get('fullName')?.hasError('required') && registerForm.get('fullName')?.touched">
-            El nombre es requerido
-          </div>
+    <form *ngIf="showRegister" [formGroup]="registerForm" (ngSubmit)="register()" class="direct-form register-form">
+      <div class="input-wrapper">
+        <ion-icon name="person" class="input-icon"></ion-icon>
+        <ion-input
+          type="text"
+          formControlName="fullName"
+          placeholder="Tu nombre completo"
+          class="direct-input"
+        ></ion-input>
+      </div>
+      <div class="error-message" *ngIf="registerForm.get('fullName')?.hasError('required') && registerForm.get('fullName')?.touched">
+        <ion-icon name="alert-circle"></ion-icon>
+        El nombre es requerido
+      </div>
 
-          <!-- Email -->
-          <ion-item class="input-item">
-            <ion-label position="floating">Correo Electrónico</ion-label>
-            <ion-input
-              type="email"
-              formControlName="email"
-              placeholder="tu@email.com"
-              required
-            ></ion-input>
-          </ion-item>
-          <div class="error-message" *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched">
-            El correo es requerido
-          </div>
-          <div class="error-message" *ngIf="registerForm.get('email')?.hasError('email') && registerForm.get('email')?.touched">
-            Ingresa un correo válido
-          </div>
+      <div class="input-wrapper">
+        <ion-icon name="mail" class="input-icon"></ion-icon>
+        <ion-input
+          type="email"
+          formControlName="email"
+          placeholder="Correo electrónico"
+          class="direct-input"
+        ></ion-input>
+      </div>
+      <div class="error-message" *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched">
+        <ion-icon name="alert-circle"></ion-icon>
+        El correo es requerido
+      </div>
 
-          <!-- Phone -->
-          <ion-item class="input-item">
-            <ion-label position="floating">Teléfono</ion-label>
-            <ion-input
-              type="tel"
-              formControlName="phone"
-              placeholder="0987654321"
-            ></ion-input>
-          </ion-item>
+      <div class="input-wrapper">
+        <ion-icon name="call" class="input-icon"></ion-icon>
+        <ion-input
+          type="tel"
+          formControlName="phone"
+          placeholder="Teléfono"
+          class="direct-input"
+        ></ion-input>
+      </div>
 
-          <!-- Password -->
-          <ion-item class="input-item">
-            <ion-label position="floating">Contraseña</ion-label>
-            <ion-input
-              type="password"
-              formControlName="password"
-              placeholder="••••••••"
-              required
-            ></ion-input>
-          </ion-item>
-          <div class="error-message" *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched">
-            La contraseña es requerida
-          </div>
+      <div class="input-wrapper">
+        <ion-icon name="lock-closed" class="input-icon"></ion-icon>
+        <ion-input
+          type="password"
+          formControlName="password"
+          placeholder="Contraseña"
+          class="direct-input"
+        ></ion-input>
+      </div>
+      <div class="error-message" *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched">
+        <ion-icon name="alert-circle"></ion-icon>
+        La contraseña es requerida
+      </div>
 
-          <!-- Confirm Password -->
-          <ion-item class="input-item">
-            <ion-label position="floating">Confirmar Contraseña</ion-label>
-            <ion-input
-              type="password"
-              formControlName="confirmPassword"
-              placeholder="••••••••"
-              required
-            ></ion-input>
-          </ion-item>
-          <div class="error-message" *ngIf="registerForm.get('confirmPassword')?.hasError('required') && registerForm.get('confirmPassword')?.touched">
-            La confirmación es requerida
-          </div>
-          <div class="error-message" *ngIf="registerForm.hasError('passwordMismatch') && registerForm.touched">
-            Las contraseñas no coinciden
-          </div>
+      <div class="input-wrapper">
+        <ion-icon name="lock-open" class="input-icon"></ion-icon>
+        <ion-input
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="Confirmar contraseña"
+          class="direct-input"
+        ></ion-input>
+      </div>
+      <div class="error-message" *ngIf="registerForm.get('confirmPassword')?.hasError('required') && registerForm.get('confirmPassword')?.touched">
+        <ion-icon name="alert-circle"></ion-icon>
+        La confirmación es requerida
+      </div>
+      <div class="error-message" *ngIf="registerForm.hasError('passwordMismatch') && registerForm.touched">
+        <ion-icon name="alert-circle"></ion-icon>
+        Las contraseñas no coinciden
+      </div>
 
-          <!-- Terms Checkbox -->
-          <div class="terms-container">
-            <ion-checkbox
-              formControlName="terms"
-              labelPlacement="end"
-            >
-              <ion-label>Acepto los <ion-router-link color="primary">términos y condiciones</ion-router-link></ion-label>
-            </ion-checkbox>
-          </div>
-          <div class="error-message" *ngIf="registerForm.get('terms')?.hasError('requiredTrue') && registerForm.get('terms')?.touched">
-            Debes aceptar los términos y condiciones
-          </div>
+      <div class="terms-wrapper">
+        <ion-checkbox
+          formControlName="terms"
+          labelPlacement="end"
+        >
+          <ion-label>Acepto los <ion-router-link color="primary">términos</ion-router-link></ion-label>
+        </ion-checkbox>
+      </div>
+      <div class="error-message" *ngIf="registerForm.get('terms')?.hasError('requiredTrue') && registerForm.get('terms')?.touched">
+        <ion-icon name="alert-circle"></ion-icon>
+        Debes aceptar los términos
+      </div>
 
-          <!-- Submit Button -->
-          <ion-button
-            expand="block"
-            color="primary"
-            type="submit"
-            class="auth-button"
-            [disabled]="!registerForm.valid || isLoadingRegister"
-          >
-            <ion-spinner *ngIf="isLoadingRegister" name="circles"></ion-spinner>
-            <span *ngIf="!isLoadingRegister">Registrarse</span>
-          </ion-button>
-        </ion-card-content>
-      </ion-card>
+      <ion-button
+        expand="block"
+        color="primary"
+        type="submit"
+        class="submit-btn"
+        [disabled]="!registerForm.valid || isLoadingRegister"
+      >
+        <ion-spinner *ngIf="isLoadingRegister" name="circles"></ion-spinner>
+        <ion-icon *ngIf="!isLoadingRegister" name="person-add-outline"></ion-icon>
+        <span *ngIf="!isLoadingRegister">Crear Cuenta</span>
+      </ion-button>
     </form>
 
-    <!-- Footer -->
-    <div class="auth-footer">
+    <div class="auth-footer" *ngIf="selectedRole === 'usuario'">
       <p class="footer-text">
-        {{ showRegister ? '¿Ya tienes cuenta?' : '¿No tienes cuenta?' }}
+        {{ showRegister ? '¿Tienes cuenta?' : '¿No tienes cuenta?' }}
         <a (click)="showRegister = !showRegister" class="toggle-link">
           {{ showRegister ? 'Inicia sesión' : 'Regístrate' }}
         </a>

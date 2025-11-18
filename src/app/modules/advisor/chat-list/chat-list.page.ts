@@ -45,6 +45,6 @@ export class ChatListPage implements OnInit {
   }
 
   goToChat(contratacionId: string) {
-    this.router.navigate(['/chat', contratacionId]);
+    console.warn('Funcionalidad de chat no disponible en este momento');
   }
 }

@@ -11,13 +11,13 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-chat',
-  templateUrl: './chat.page.html',
-  styleUrls: ['./chat.page.scss'],
+  selector: 'app-chat-detail',
+  templateUrl: './chat-detail.page.html',
+  styleUrls: ['./chat-detail.page.scss'],
   standalone: true,
   imports: [CommonModule, IonicModule, FormsModule]
 })
-export class ChatPage implements OnInit, AfterViewChecked, OnDestroy {
+export class ChatDetailPage implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild(IonContent) content!: IonContent;
 
   contratacionId!: string;
@@ -26,7 +26,7 @@ export class ChatPage implements OnInit, AfterViewChecked, OnDestroy {
   contratacion: Contratacion | null = null;
   newMessage = '';
   currentUserId = '';
-  asesorId: string | null = null;
+  usuarioId: string | null = null;
   isLoading = true;
   shouldScroll = false;
   otherUserTyping = false;
@@ -59,7 +59,7 @@ export class ChatPage implements OnInit, AfterViewChecked, OnDestroy {
               contratacion => {
                 if (contratacion) {
                   this.contratacion = contratacion;
-                  this.asesorId = contratacion.usuario_id === user.id ? null : contratacion.usuario_id;
+                  this.usuarioId = contratacion.usuario_id;
                   this.mensajes$ = this.chatService.subscribeToConversacion(this.contratacionId);
                   
                   this.chatService.subscribeToTypingEvents(this.contratacionId)
@@ -117,7 +117,7 @@ export class ChatPage implements OnInit, AfterViewChecked, OnDestroy {
     this.chatService.sendMessage(
       this.contratacionId,
       this.currentUserId,
-      this.asesorId,
+      this.usuarioId,
       message
     )
       .pipe(takeUntil(this.destroy$))
@@ -137,11 +137,10 @@ export class ChatPage implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   goBack() {
-    this.router.navigate(['/mis-contrataciones']);
+    this.router.navigate(['/advisor/chat-list']);
   }
 
   isMessageFromCurrentUser(usuarioId: string): boolean {
     return usuarioId === this.currentUserId;
   }
 }
-

@@ -3,7 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button (click)="goBack()" text="" defaultHref="/catalog"></ion-back-button>
     </ion-buttons>
-    <ion-title>Detalle del Plan</ion-title>
+    <div class="header-logo">
+      <img src="assets/images/logoTigo.png" alt="Tigo" class="header-logo-img">
+    </div>
   </ion-toolbar>
 </ion-header>
 
@@ -11,125 +13,142 @@
   <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
 
   <div *ngIf="!isLoading && plan" class="plan-details">
-    <div class="plan-header" [class]="'header-' + plan.segmento.toLowerCase()">
-      <div *ngIf="plan.imagen_url" class="plan-image-large">
-        <img [src]="plan.imagen_url" [alt]="plan.nombre">
-      </div>
-      <div *ngIf="!plan.imagen_url" class="plan-image-placeholder">
-        <ion-icon name="phone-portrait"></ion-icon>
-      </div>
-      <div class="header-info">
-        <h1 class="plan-title">{{ plan.nombre }}</h1>
-        <p class="plan-segment">{{ plan.segmento }}</p>
+    
+    <div class="quick-info-card">
+      <div class="plan-meta">
+        <span class="plan-segment-label">{{ plan.segmento }}</span>
+        <h1 class="plan-title-large">{{ plan.nombre }}</h1>
+        <p class="plan-subtitle">{{ plan.descripcion }}</p>
       </div>
     </div>
 
-    <div class="price-card">
-      <div class="price-large">
-        <span class="currency">$</span><span class="amount">{{ plan.precio }}</span>
-        <span class="period">/mes</span>
+    <div class="price-highlight-section">
+      <div class="price-display">
+        <span class="currency-symbol">$</span>
+        <span class="price-value">{{ plan.precio }}</span>
+        <span class="period-label">/mes</span>
+      </div>
+      <div class="plan-image-compact">
+        <img *ngIf="plan.imagen_url" [src]="plan.imagen_url" [alt]="plan.nombre">
+        <ion-icon *ngIf="!plan.imagen_url" name="call"></ion-icon>
       </div>
     </div>
 
-    <div class="description-section">
-      <p class="description-text">{{ plan.descripcion }}</p>
+    <div class="features-tabs">
+      <ion-card class="features-card">
+        <ion-card-header class="card-header-compact">
+          <ion-card-title>
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            Incluido en tu plan
+          </ion-card-title>
+        </ion-card-header>
+        
+        <ion-card-content class="features-content">
+          <div class="features-grid">
+            <div class="feature-box">
+              <div class="feature-icon-wrapper">
+                <ion-icon name="cellular"></ion-icon>
+              </div>
+              <div class="feature-text">
+                <p class="feature-label">Datos Móviles</p>
+                <p class="feature-value">{{ plan.datos_moviles }}</p>
+              </div>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon-wrapper">
+                <ion-icon name="call"></ion-icon>
+              </div>
+              <div class="feature-text">
+                <p class="feature-label">Voz</p>
+                <p class="feature-value">{{ plan.minutos_voz }}</p>
+              </div>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon-wrapper">
+                <ion-icon name="mail"></ion-icon>
+              </div>
+              <div class="feature-text">
+                <p class="feature-label">SMS</p>
+                <p class="feature-value">{{ plan.sms }}</p>
+              </div>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon-wrapper">
+                <ion-icon name="speed"></ion-icon>
+              </div>
+              <div class="feature-text">
+                <p class="feature-label">Velocidad 4G</p>
+                <p class="feature-value">{{ plan.velocidad_4g }}</p>
+              </div>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon-wrapper">
+                <ion-icon name="logo-instagram"></ion-icon>
+              </div>
+              <div class="feature-text">
+                <p class="feature-label">Redes</p>
+                <p class="feature-value">{{ plan.redes_sociales }}</p>
+              </div>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon-wrapper">
+                <ion-icon name="logo-whatsapp"></ion-icon>
+              </div>
+              <div class="feature-text">
+                <p class="feature-label">WhatsApp</p>
+                <p class="feature-value">{{ plan.whatsapp }}</p>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <div class="additional-features">
+        <ion-card class="features-card">
+          <ion-card-header class="card-header-compact" (click)="toggleAdditional()">
+            <ion-card-title>
+              <ion-icon name="arrow-forward" [class.rotated]="showAdditionalFeatures"></ion-icon>
+              Características Adicionales
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content class="features-content" *ngIf="showAdditionalFeatures">
+            <div class="additional-items">
+              <div class="additional-item" *ngIf="plan.velocidad_5g">
+                <ion-icon name="flash"></ion-icon>
+                <div>
+                  <p class="item-label">5G Disponible</p>
+                  <p class="item-value">{{ plan.velocidad_5g }}</p>
+                </div>
+              </div>
+
+              <div class="additional-item">
+                <ion-icon name="earth"></ion-icon>
+                <div>
+                  <p class="item-label">Internacionales</p>
+                  <p class="item-value">{{ plan.llamadas_internacionales }}</p>
+                </div>
+              </div>
+
+              <div class="additional-item">
+                <ion-icon name="airplane"></ion-icon>
+                <div>
+                  <p class="item-label">Roaming</p>
+                  <p class="item-value">{{ plan.roaming }}</p>
+                </div>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
     </div>
 
-    <div class="features-section">
-      <h2>Características Principales</h2>
-
-      <div class="feature-item">
-        <div class="feature-icon">
-          <ion-icon name="cellular"></ion-icon>
-        </div>
-        <div class="feature-content">
-          <p class="feature-title">Datos Móviles</p>
-          <p class="feature-value">{{ plan.datos_moviles }}</p>
-        </div>
-      </div>
-
-      <div class="feature-item">
-        <div class="feature-icon">
-          <ion-icon name="call"></ion-icon>
-        </div>
-        <div class="feature-content">
-          <p class="feature-title">Minutos de Voz</p>
-          <p class="feature-value">{{ plan.minutos_voz }}</p>
-        </div>
-      </div>
-
-      <div class="feature-item">
-        <div class="feature-icon">
-          <ion-icon name="mail"></ion-icon>
-        </div>
-        <div class="feature-content">
-          <p class="feature-title">SMS</p>
-          <p class="feature-value">{{ plan.sms }}</p>
-        </div>
-      </div>
-
-      <div class="feature-item">
-        <div class="feature-icon">
-          <ion-icon name="speed"></ion-icon>
-        </div>
-        <div class="feature-content">
-          <p class="feature-title">Velocidad 4G</p>
-          <p class="feature-value">{{ plan.velocidad_4g }}</p>
-        </div>
-      </div>
-
-      <div class="feature-item" *ngIf="plan.velocidad_5g">
-        <div class="feature-icon">
-          <ion-icon name="flash"></ion-icon>
-        </div>
-        <div class="feature-content">
-          <p class="feature-title">Velocidad 5G</p>
-          <p class="feature-value">{{ plan.velocidad_5g }}</p>
-        </div>
-      </div>
-
-      <div class="feature-item">
-        <div class="feature-icon">
-          <ion-icon name="logo-instagram"></ion-icon>
-        </div>
-        <div class="feature-content">
-          <p class="feature-title">Redes Sociales</p>
-          <p class="feature-value">{{ plan.redes_sociales }}</p>
-        </div>
-      </div>
-
-      <div class="feature-item">
-        <div class="feature-icon">
-          <ion-icon name="logo-whatsapp"></ion-icon>
-        </div>
-        <div class="feature-content">
-          <p class="feature-title">WhatsApp</p>
-          <p class="feature-value">{{ plan.whatsapp }}</p>
-        </div>
-      </div>
-
-      <div class="feature-item">
-        <div class="feature-icon">
-          <ion-icon name="earth"></ion-icon>
-        </div>
-        <div class="feature-content">
-          <p class="feature-title">Llamadas Internacionales</p>
-          <p class="feature-value">{{ plan.llamadas_internacionales }}</p>
-        </div>
-      </div>
-
-      <div class="feature-item">
-        <div class="feature-icon">
-          <ion-icon name="airplane"></ion-icon>
-        </div>
-        <div class="feature-content">
-          <p class="feature-title">Roaming</p>
-          <p class="feature-value">{{ plan.roaming }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="action-section">
+    <div class="action-buttons-section">
       <ion-button 
         *ngIf="isAuthenticated$ | async" 
         expand="block" 
@@ -138,8 +157,7 @@
         (click)="contratarPlan()"
         class="contract-btn"
       >
-        <ion-icon slot="start" name="checkmark-circle"></ion-icon>
-        Contratar Ahora
+        Contratar Este Plan
       </ion-button>
 
       <ion-button 
@@ -150,8 +168,8 @@
         (click)="goToLogin()"
         class="login-btn"
       >
-        <ion-icon slot="start" name="log-in"></ion-icon>
-        Inicia Sesión para Contratar
+        <ion-icon slot="start" name="log-in-outline"></ion-icon>
+        Inicia sesión antes de continuar
       </ion-button>
 
       <ion-button 
@@ -159,10 +177,13 @@
         color="medium"
         fill="outline"
         (click)="goBack()"
+        class="back-btn"
       >
-        Volver al Catálogo
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+        Volver
       </ion-button>
     </div>
+
   </div>
 
   <div *ngIf="!isLoading && !plan" class="no-plan">

@@ -1,5 +1,5 @@
 ion-toolbar {
-  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --background: linear-gradient(135deg, #e63946 0%, #1d3557 100%);
   --border-color: transparent;
 }
 
@@ -13,7 +13,7 @@ ion-back-button {
 }
 
 .contratos-content {
-  --background: #f7f8fa;
+  --background: #f1faee;
 }
 
 .content-inner {
@@ -40,7 +40,7 @@ ion-back-button {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #e63946;
 
   ion-card-content {
     padding: 16px;
@@ -60,13 +60,13 @@ ion-back-button {
       font-size: 18px;
       font-weight: bold;
       margin: 0 0 4px 0;
-      color: #2c3e50;
+      color: #1d3557;
     }
 
     .price {
       font-size: 16px;
       font-weight: bold;
-      color: #667eea;
+      color: #e63946;
       margin: 0;
     }
   }
@@ -96,7 +96,7 @@ ion-back-button {
   color: #555;
 
   ion-icon {
-    color: #667eea;
+    color: #e63946;
     font-size: 18px;
   }
 }
@@ -109,7 +109,7 @@ ion-back-button {
     flex: 1;
     height: 40px;
     font-weight: 600;
-    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --background: linear-gradient(135deg, #e63946 0%, #1d3557 100%);
   }
 }
 
@@ -119,19 +119,19 @@ ion-back-button {
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: #7f8c8d;
+  color: #457b9d;
   text-align: center;
 
   ion-icon {
     font-size: 64px;
-    color: #bdc3c7;
+    color: #a8dadc;
     margin-bottom: 16px;
   }
 
   h3 {
     font-size: 18px;
     font-weight: bold;
-    color: #2c3e50;
+    color: #1d3557;
     margin: 0 0 8px 0;
   }
 
@@ -142,10 +142,10 @@ ion-back-button {
   }
 
   ion-button {
-    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --background: linear-gradient(135deg, #e63946 0%, #1d3557 100%);
   }
 }
 
 ion-spinner {
-  --color: #667eea;
+  --color: #e63946;
 }

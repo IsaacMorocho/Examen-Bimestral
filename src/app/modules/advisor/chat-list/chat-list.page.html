@@ -3,7 +3,10 @@
     <ion-buttons slot="start">
       <ion-back-button (click)="goBack()" text="" defaultHref="/advisor/dashboard"></ion-back-button>
     </ion-buttons>
-    <ion-title>Mis Conversaciones</ion-title>
+    <ion-title>
+      <ion-icon name="chatbubbles-outline" class="title-icon"></ion-icon>
+      Mis Mensajes
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -39,8 +42,8 @@
 
       <div *ngIf="!(conversaciones$ | async) || (conversaciones$ | async)?.length === 0" class="no-conversations">
         <ion-icon name="chatbubbles-outline"></ion-icon>
-        <h3>Sin conversaciones</h3>
-        <p>No tienes conversaciones con clientes en este momento.</p>
+        <h3>Ningún mensaje</h3>
+        <p>Tus conversaciones aparecerán aquí.</p>
       </div>
     </div>
   </div>

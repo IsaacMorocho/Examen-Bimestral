@@ -1,17 +1,19 @@
 <ion-header [translucent]="true" class="ion-no-border">
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button (click)="goBack()" text="" defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Mi Perfil</ion-title>
+    <div class="header-logo">
+      <img src="assets/images/logoTigo.png" alt="TigoConnect" class="header-logo-img">
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="profile-content">
   <div *ngIf="currentUser$ | async as user" class="profile-container">
-    <div class="profile-header">
-      <div class="avatar">
-        <ion-avatar *ngIf="user.avatar_url">
+    <div class="profile-hero">
+      <div class="avatar-container">
+        <ion-avatar *ngIf="user.avatar_url" class="user-avatar">
           <img [src]="user.avatar_url" [alt]="user.full_name">
         </ion-avatar>
         <div *ngIf="!user.avatar_url" class="avatar-placeholder">
@@ -19,40 +21,44 @@
         </div>
       </div>
       <h1>{{ user.full_name }}</h1>
-      <p class="role-badge">Usuario Registrado</p>
+      <p class="role-label">Cuenta de Cliente</p>
     </div>
 
-    <ion-card class="info-card">
-      <ion-card-content>
-        <div class="info-item">
-          <ion-icon name="mail"></ion-icon>
-          <div class="info-text">
-            <p class="label">Email</p>
-            <p class="value">{{ user.email }}</p>
-          </div>
+    <div class="info-section">
+      <div class="info-card">
+        <div class="card-icon">
+          <ion-icon name="mail-outline"></ion-icon>
         </div>
-
-        <div class="info-item">
-          <ion-icon name="call"></ion-icon>
-          <div class="info-text">
-            <p class="label">Teléfono</p>
-            <p class="value">{{ user.phone || 'No especificado' }}</p>
-          </div>
+        <div class="card-content">
+          <p class="card-label">Email</p>
+          <p class="card-value">{{ user.email }}</p>
         </div>
+      </div>
 
-        <div class="info-item">
-          <ion-icon name="calendar"></ion-icon>
-          <div class="info-text">
-            <p class="label">Miembro desde</p>
-            <p class="value">{{ user.created_at | date: 'short' }}</p>
-          </div>
+      <div class="info-card">
+        <div class="card-icon">
+          <ion-icon name="call-outline"></ion-icon>
         </div>
-      </ion-card-content>
-    </ion-card>
+        <div class="card-content">
+          <p class="card-label">Teléfono</p>
+          <p class="card-value">{{ user.phone || 'No especificado' }}</p>
+        </div>
+      </div>
 
-    <div class="actions">
-      <ion-button expand="block" color="danger" fill="outline" (click)="logout()">
-        <ion-icon slot="start" name="log-out"></ion-icon>
+      <div class="info-card">
+        <div class="card-icon">
+          <ion-icon name="calendar-outline"></ion-icon>
+        </div>
+        <div class="card-content">
+          <p class="card-label">Miembro Desde</p>
+          <p class="card-value">{{ user.created_at | date: 'short' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions-section">
+      <ion-button expand="block" (click)="logout()" class="logout-btn">
+        <ion-icon slot="start" name="log-out-outline"></ion-icon>
         Cerrar Sesión
       </ion-button>
     </div>

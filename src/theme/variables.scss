@@ -1,2 +1,129 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+
+:root {
+  // Paleta de colores personalizada TigoConnect
+  --ion-color-primary: #e63946;
+  --ion-color-primary-rgb: 230, 57, 70;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #cc303d;
+  --ion-color-primary-tint: #e94c57;
+
+  --ion-color-secondary: #457b9d;
+  --ion-color-secondary-rgb: 69, 123, 157;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #3e6d8b;
+  --ion-color-secondary-tint: #5689a7;
+
+  --ion-color-tertiary: #1d3557;
+  --ion-color-tertiary-rgb: 29, 53, 87;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #1a2d48;
+  --ion-color-tertiary-tint: #34486b;
+
+  --ion-color-accent: #a8dadc;
+  --ion-color-accent-rgb: 168, 218, 220;
+  --ion-color-accent-contrast: #1d3557;
+  --ion-color-accent-contrast-rgb: 29, 53, 87;
+  --ion-color-accent-shade: #94c0c3;
+  --ion-color-accent-tint: #b1e0e2;
+
+  --ion-color-light: #f1faee;
+  --ion-color-light-rgb: 241, 250, 238;
+  --ion-color-light-contrast: #1d3557;
+  --ion-color-light-contrast-rgb: 29, 53, 87;
+  --ion-color-light-shade: #d4e7d1;
+  --ion-color-light-tint: #f2fbef;
+
+  --ion-color-warning: #ffc409;
+  --ion-color-warning-rgb: 255, 196, 9;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0ac08;
+  --ion-color-warning-tint: #ffca22;
+
+  --ion-color-danger: #e63946;
+  --ion-color-danger-rgb: 230, 57, 70;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #cc303d;
+  --ion-color-danger-tint: #e94c57;
+
+  --ion-color-success: #06d6a0;
+  --ion-color-success-rgb: 6, 214, 160;
+  --ion-color-success-contrast: #000000;
+  --ion-color-success-contrast-rgb: 0, 0, 0;
+  --ion-color-success-shade: #05ba8f;
+  --ion-color-success-tint: #1fdaaa;
+
+  --ion-color-medium: #92949c;
+  --ion-color-medium-rgb: 146, 148, 156;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #808289;
+  --ion-color-medium-tint: #9da0a6;
+
+  --ion-color-dark: #1d3557;
+  --ion-color-dark-rgb: 29, 53, 87;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1a2d48;
+  --ion-color-dark-tint: #34486b;
+}
+
+body {
+  background-color: #f1faee;
+}
+
+ion-toolbar {
+  --background: #1d3557;
+  --color: #ffffff;
+}
+
+ion-content {
+  --background: #f1faee;
+  --color: #1d3557;
+}
+
+ion-card {
+  --background: #ffffff;
+  --color: #1d3557;
+  box-shadow: 0 2px 8px rgba(29, 53, 87, 0.1);
+}
+
+ion-button {
+  --color: #ffffff;
+  --background: #e63946;
+
+  &[fill="outline"] {
+    --color: #e63946;
+    --border-color: #e63946;
+  }
+
+  &[color="secondary"] {
+    --background: #457b9d;
+  }
+
+  &[color="tertiary"] {
+    --background: #1d3557;
+  }
+}
+
+ion-item {
+  --background: transparent;
+  --color: #1d3557;
+  --border-color: #a8dadc;
+}
+
+ion-chip {
+  --background: #a8dadc;
+  --color: #1d3557;
+}
+
+ion-badge {
+  --background: #e63946;
+  --color: #ffffff;
+}

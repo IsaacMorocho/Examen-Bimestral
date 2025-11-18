@@ -3,7 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/splash" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Nuestros Planes</ion-title>
+    <div class="header-logo">
+      <img src="assets/images/logoTigo.png" alt="Tigo" class="header-logo-img">
+    </div>
     <ion-buttons slot="end">
       <ion-button (click)="onProfileClick()" fill="solid">
         <ion-icon name="person-circle"></ion-icon>
@@ -13,74 +15,94 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="catalog-content">
-  <div class="header-section">
-    <h1>Planes Móviles Tigo Ecuador</h1>
-    <p>Elige el plan perfecto para tu estilo de vida</p>
+  <!-- Hero Banner -->
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h1>TIGO<span class="conecta">Conecta</span></h1>
+      <p class="hero-tagline">Elige tu plan perfecto</p>
+    </div>
   </div>
 
-  <ion-segment [value]="selectedSegment" (ionChange)="filterBySegment($event)" class="segment-filter">
-    <ion-segment-button value="todos">
-      <ion-label>Todos</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Básico">
-      <ion-label>Básico</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Medio">
-      <ion-label>Medio</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Premium">
-      <ion-label>Premium</ion-label>
-    </ion-segment-button>
-  </ion-segment>
+  <!-- Filter Section - Horizontal Scroll -->
+  <div class="filter-section">
+    <div class="filter-header">
+      <h3>Por Segmento</h3>
+    </div>
+    <div class="filter-chips">
+      <ion-chip 
+        *ngFor="let seg of ['todos', 'Básico', 'Medio', 'Premium']"
+        [class.active]="selectedSegment === seg"
+        (click)="filterBySegment({detail: {value: seg}})"
+        outline="true"
+      >
+        <ion-label>{{ seg === 'todos' ? 'Ver Todo' : seg }}</ion-label>
+      </ion-chip>
+    </div>
+  </div>
 
-  <div class="plans-grid">
-    <ion-card 
-      *ngFor="let plan of (planes$ | async) as plans; let i = index"
-      [class]="'plan-card ' + getSegmentClass(plan.segmento)"
-      (click)="goToDetail(plan.id)"
-      class="plan-card-item"
-    >
-      <div class="card-badge">{{ plan.segmento }}</div>
+  <!-- Plans List View (Alternative to Grid) -->
+  <div class="plans-list-container">
+    <div *ngIf="(planes$ | async) as plans; else noplans" class="plans-list">
       
-      <div class="card-image-container" *ngIf="plan.imagen_url">
-        <img [src]="plan.imagen_url" [alt]="plan.nombre" class="plan-image">
-      </div>
-      <div class="card-image-container" *ngIf="!plan.imagen_url">
-        <div class="plan-image-placeholder">
-          <ion-icon name="phone-portrait"></ion-icon>
-        </div>
-      </div>
-
-      <ion-card-content class="card-content">
-        <h2 class="plan-name">{{ plan.nombre }}</h2>
-        <p class="plan-description">{{ plan.descripcion }}</p>
-
-        <div class="price-section">
-          <span class="price">${{ plan.precio }}</span>
-          <span class="period">/mes</span>
-        </div>
-
-        <div class="highlights">
-          <ion-chip size="small">
-            <ion-icon name="cellular"></ion-icon>
-            <ion-label>{{ plan.datos_moviles }}</ion-label>
-          </ion-chip>
-          <ion-chip size="small">
+      <!-- Compact Plan Card in Horizontal Layout -->
+      <div 
+        *ngFor="let plan of plans; let i = index"
+        class="plan-item-horizontal"
+        (click)="goToDetail(plan.id)"
+      >
+        <!-- Left: Image/Badge -->
+        <div class="plan-thumbnail">
+          <div *ngIf="plan.imagen_url" class="thumbnail-image">
+            <img [src]="plan.imagen_url" [alt]="plan.nombre">
+          </div>
+          <div *ngIf="!plan.imagen_url" class="thumbnail-placeholder">
             <ion-icon name="call"></ion-icon>
-            <ion-label>{{ plan.minutos_voz }}</ion-label>
-          </ion-chip>
+          </div>
+          <div class="segment-badge">{{ plan.segmento }}</div>
         </div>
 
-        <ion-button expand="block" color="primary" class="view-btn">
-          Ver Detalles
-          <ion-icon slot="end" name="arrow-forward"></ion-icon>
-        </ion-button>
-      </ion-card-content>
-    </ion-card>
+        <!-- Center: Info -->
+        <div class="plan-info">
+          <h4 class="plan-title">{{ plan.nombre }}</h4>
+          <p class="plan-desc-short">{{ plan.descripcion | slice:0:60 }}...</p>
+          <div class="plan-specs">
+            <span class="spec-item">
+              <ion-icon name="cellular"></ion-icon>
+              {{ plan.datos_moviles }}
+            </span>
+            <span class="spec-separator">•</span>
+            <span class="spec-item">
+              <ion-icon name="call"></ion-icon>
+              {{ plan.minutos_voz }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Right: Price & CTA -->
+        <div class="plan-price-cta">
+          <div class="price-box">
+            <span class="price-amount">${{ plan.precio }}</span>
+            <span class="price-period">/mes</span>
+          </div>
+          <ion-icon name="chevron-forward" class="chevron-icon"></ion-icon>
+        </div>
+      </div>
+
+    </div>
+
+    <ng-template #noplans>
+      <div class="no-plans">
+        <ion-icon name="sad-outline"></ion-icon>
+        <p>No hay planes disponibles en este momento</p>
+      </div>
+    </ng-template>
   </div>
 
-  <div *ngIf="!(planes$ | async) || (planes$ | async)?.length === 0" class="no-plans">
-    <ion-icon name="sad-outline"></ion-icon>
-    <p>No hay planes disponibles en este momento</p>
+  <!-- Info Section at Bottom -->
+  <div class="info-banner">
+    <div class="info-content">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <p>Toca cualquier plan para ver todos los detalles y características completas</p>
+    </div>
   </div>
 </ion-content>

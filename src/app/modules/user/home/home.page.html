@@ -1,6 +1,8 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar color="primary">
-    <ion-title>Tigo Conecta</ion-title>
+    <div class="header-logo">
+      <img src="assets/images/logoTigo.png" alt="Tigo" class="header-logo-img">
+    </div>
     <ion-buttons slot="end">
       <ion-button (click)="goToProfile()">
         <ion-icon name="person-circle"></ion-icon>
@@ -10,88 +12,117 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="home-content">
-  <!-- User Welcome Card -->
-  <div class="welcome-card" *ngIf="currentUser$ | async as user">
+  <div class="welcome-hero" *ngIf="currentUser$ | async as user">
     <div class="welcome-content">
-      <h1>¡Bienvenido, <span>{{ user.full_name }}</span>!</h1>
-      <p>Explora nuestros planes y gestiona tus contrataciones</p>
+      <h1>¡Hola <span class="name-highlight">{{ user.full_name }}</span>!</h1>
+      <p class="welcome-text">Tu centro de gestión móvil</p>
     </div>
-    <div class="welcome-icon">
-      <ion-icon name="hand-left"></ion-icon>
-    </div>
+    <ion-icon name="happy-outline" class="welcome-icon"></ion-icon>
   </div>
 
-  <!-- Quick Actions -->
   <div class="quick-actions">
-    <ion-card class="action-card" (click)="goToMisContrataciones()">
-      <ion-card-content>
-        <ion-icon name="document-text"></ion-icon>
-        <h3>Mis Contrataciones</h3>
-        <p>Ver tus planes activos</p>
-      </ion-card-content>
-    </ion-card>
+    <div class="action-item" (click)="goToMisContrataciones()">
+      <div class="action-icon-bg">
+        <ion-icon name="document-lock-outline"></ion-icon>
+      </div>
+      <h4>Mis Contratos</h4>
+      <p>Ver activos</p>
+    </div>
 
-    <ion-card class="action-card" (click)="goToCatalog()">
-      <ion-card-content>
-        <ion-icon name="add-circle"></ion-icon>
-        <h3>Nuevo Plan</h3>
-        <p>Explorar más planes</p>
-      </ion-card-content>
-    </ion-card>
+    <div class="action-item" (click)="goToCatalog()">
+      <div class="action-icon-bg">
+        <ion-icon name="storefront-outline"></ion-icon>
+      </div>
+      <h4>Explorar Planes</h4>
+      <p>Nuevas opciones</p>
+    </div>
   </div>
 
-  <!-- Featured Plans -->
-  <div class="featured-section">
-    <h2>Planes Recomendados</h2>
-    <ion-slides [options]="slideOpts" class="featured-slider">
-      <ion-slide *ngFor="let plan of (planes$ | async) | slice:0:3">
-        <ion-card class="featured-card" (click)="goToPlanDetail(plan.id)">
-          <div class="featured-image" *ngIf="plan.imagen_url">
-            <img [src]="plan.imagen_url" [alt]="plan.nombre">
-          </div>
-          <div class="featured-image" *ngIf="!plan.imagen_url" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-            <ion-icon name="phone-portrait"></ion-icon>
-          </div>
-          <ion-card-content>
-            <h3>{{ plan.nombre }}</h3>
-            <p class="plan-price">${{ plan.precio }}/mes</p>
-            <ion-chip size="small" [class]="'segment-' + plan.segmento.toLowerCase()">
-              <ion-label>{{ plan.segmento }}</ion-label>
-            </ion-chip>
-          </ion-card-content>
-        </ion-card>
-      </ion-slide>
-    </ion-slides>
-  </div>
+  <div class="recommended-section">
+    <div class="section-header">
+      <h2>Planes recomendados para ti</h2>
+      <ion-icon name="sparkles-outline"></ion-icon>
+    </div>
 
-  <!-- All Plans Grid -->
-  <div class="all-plans-section">
-    <h2>Todos Nuestros Planes</h2>
-    <div class="plans-grid">
-      <ion-card 
-        *ngFor="let plan of (planes$ | async)" 
-        class="plan-card"
+    <div class="plans-carousel">
+      <div 
+        *ngFor="let plan of (planes$ | async) | slice:0:4"
+        class="plan-item-card"
         (click)="goToPlanDetail(plan.id)"
       >
-        <div class="plan-image-container" *ngIf="plan.imagen_url">
-          <img [src]="plan.imagen_url" [alt]="plan.nombre">
+        <div class="plan-card-thumbnail">
+          <img *ngIf="plan.imagen_url" [src]="plan.imagen_url" [alt]="plan.nombre">
+          <div *ngIf="!plan.imagen_url" class="placeholder">
+            <ion-icon name="call"></ion-icon>
+          </div>
+          <div class="plan-badge">{{ plan.segmento }}</div>
         </div>
-        <div class="plan-image-container" *ngIf="!plan.imagen_url" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-          <ion-icon name="phone-portrait"></ion-icon>
+
+        <div class="plan-card-info">
+          <h4>{{ plan.nombre }}</h4>
+          <p class="card-price">${{ plan.precio }}/mes</p>
+          <div class="card-features">
+            <span class="feature">
+              <ion-icon name="call"></ion-icon>
+              {{ plan.datos_moviles }}
+            </span>
+            <span class="feature">
+              <ion-icon name="phone-landscape"></ion-icon>
+              {{ plan.minutos_voz }}
+            </span>
+          </div>
         </div>
-        <ion-card-content>
-          <h3>{{ plan.nombre }}</h3>
-          <p class="price">${{ plan.precio }}/mes</p>
-          <p class="description">{{ plan.descripcion | slice:0:50 }}...</p>
-        </ion-card-content>
-      </ion-card>
+
+        <div class="plan-cta">
+          <ion-icon name="arrow-forward"></ion-icon>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Logout Button -->
+  <div class="all-plans-section">
+    <h2>Todos Nuestros Planes</h2>
+    <div class="plans-list">
+      <div 
+        *ngFor="let plan of (planes$ | async)"
+        class="plan-item-horizontal"
+        (click)="goToPlanDetail(plan.id)"
+      >
+        <div class="plan-thumbnail">
+          <img *ngIf="plan.imagen_url" [src]="plan.imagen_url" [alt]="plan.nombre">
+          <div *ngIf="!plan.imagen_url" class="placeholder">
+            <ion-icon name="call"></ion-icon>
+          </div>
+          <div class="segment-badge">{{ plan.segmento }}</div>
+        </div>
+
+        <div class="plan-info">
+          <h4>{{ plan.nombre }}</h4>
+          <p class="desc">{{ plan.descripcion | slice:0:50 }}...</p>
+          <div class="specs">
+            <span>
+              <ion-icon name="call"></ion-icon>
+              {{ plan.datos_moviles }}
+            </span>
+            <span>•</span>
+            <span>
+              <ion-icon name="phone-landscape"></ion-icon>
+              {{ plan.minutos_voz }}
+            </span>
+          </div>
+        </div>
+
+        <div class="price-cta">
+          <span class="price">${{ plan.precio }}</span>
+          <ion-icon name="chevron-forward"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="logout-section">
     <ion-button expand="block" color="danger" fill="outline" (click)="logout()">
-      <ion-icon slot="start" name="log-out"></ion-icon>
+      <ion-icon slot="start" name="log-out-outline"></ion-icon>
       Cerrar Sesión
     </ion-button>
   </div>

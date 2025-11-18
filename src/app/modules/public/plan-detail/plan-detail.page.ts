@@ -19,6 +19,7 @@ export class PlanDetailPage implements OnInit {
   plan: Plan | null = null;
   isAuthenticated$: Observable<boolean>;
   isLoading = true;
+  showAdditionalFeatures = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -94,6 +95,10 @@ export class PlanDetailPage implements OnInit {
 
   goToLogin() {
     this.router.navigate(['/login']);
+  }
+
+  toggleAdditional() {
+    this.showAdditionalFeatures = !this.showAdditionalFeatures;
   }
 
   private async presentToast(message: string, color: string) {
