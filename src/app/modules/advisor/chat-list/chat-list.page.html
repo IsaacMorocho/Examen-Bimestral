@@ -1,0 +1,47 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button (click)="goBack()" text="" defaultHref="/advisor/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Conversaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="chat-list-content">
+  <div class="content-inner">
+    <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+
+    <div *ngIf="!isLoading" class="conversations">
+      <ion-card 
+        *ngFor="let conv of (conversaciones$ | async)" 
+        class="conversation-card"
+        (click)="goToChat(conv.contratacion_id)"
+      >
+        <ion-card-content>
+          <div class="conversation-header">
+            <div class="user-info">
+              <h3>{{ conv.usuario_nombre }}</h3>
+              <p class="plan-name">{{ conv.plan_nombre }}</p>
+            </div>
+            <div class="unread-badge" *ngIf="conv.no_leidos > 0">
+              {{ conv.no_leidos }}
+            </div>
+          </div>
+
+          <p class="last-message">{{ conv.ultimo_mensaje | slice:0:50 }}...</p>
+
+          <div class="conversation-footer">
+            <span class="timestamp">{{ conv.timestamp_ultimo | date: 'short' }}</span>
+            <ion-icon name="chevron-forward"></ion-icon>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <div *ngIf="!(conversaciones$ | async) || (conversaciones$ | async)?.length === 0" class="no-conversations">
+        <ion-icon name="chatbubbles-outline"></ion-icon>
+        <h3>Sin conversaciones</h3>
+        <p>No tienes conversaciones con clientes en este momento.</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,74 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button (click)="goBack()" text="" defaultHref="/advisor/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Contrataciones Pendientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="pending-content">
+  <div class="content-inner">
+    <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+
+    <div *ngIf="!isLoading" class="pending-list">
+      <ion-card 
+        *ngFor="let contrato of (contratacionesPendientes$ | async)" 
+        class="pending-card"
+      >
+        <ion-card-content>
+          <div class="card-header">
+            <div>
+              <h2>{{ contrato.plan_nombre }}</h2>
+              <p class="client-name">Cliente: {{ contrato.usuario_nombre }}</p>
+            </div>
+            <ion-badge color="warning">Pendiente</ion-badge>
+          </div>
+
+          <div class="card-details">
+            <div class="detail-item">
+              <ion-icon name="person"></ion-icon>
+              <span>{{ contrato.usuario_nombre }}</span>
+            </div>
+            <div class="detail-item">
+              <ion-icon name="calendar"></ion-icon>
+              <span>{{ contrato.created_at | date: 'short' }}</span>
+            </div>
+            <div class="detail-item">
+              <ion-icon name="cash"></ion-icon>
+              <span>${{ contrato.precio_mensual }}/mes</span>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <ion-button 
+              color="success" 
+              expand="block"
+              size="small"
+              (click)="aprobarContratacion(contrato.id)"
+            >
+              <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+              Aprobar
+            </ion-button>
+            <ion-button 
+              color="danger" 
+              expand="block"
+              fill="outline"
+              size="small"
+              (click)="rechazarContratacion(contrato.id)"
+            >
+              <ion-icon slot="start" name="close-circle"></ion-icon>
+              Rechazar
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <div *ngIf="!(contratacionesPendientes$ | async) || (contratacionesPendientes$ | async)?.length === 0" class="no-contracts">
+        <ion-icon name="clipboard-outline"></ion-icon>
+        <h3>Sin solicitudes pendientes</h3>
+        <p>No hay contrataciones por aprobar en este momento.</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

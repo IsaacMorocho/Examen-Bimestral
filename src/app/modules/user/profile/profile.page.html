@@ -1,0 +1,60 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button (click)="goBack()" text="" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="profile-content">
+  <div *ngIf="currentUser$ | async as user" class="profile-container">
+    <div class="profile-header">
+      <div class="avatar">
+        <ion-avatar *ngIf="user.avatar_url">
+          <img [src]="user.avatar_url" [alt]="user.full_name">
+        </ion-avatar>
+        <div *ngIf="!user.avatar_url" class="avatar-placeholder">
+          <ion-icon name="person"></ion-icon>
+        </div>
+      </div>
+      <h1>{{ user.full_name }}</h1>
+      <p class="role-badge">Usuario Registrado</p>
+    </div>
+
+    <ion-card class="info-card">
+      <ion-card-content>
+        <div class="info-item">
+          <ion-icon name="mail"></ion-icon>
+          <div class="info-text">
+            <p class="label">Email</p>
+            <p class="value">{{ user.email }}</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <ion-icon name="call"></ion-icon>
+          <div class="info-text">
+            <p class="label">Teléfono</p>
+            <p class="value">{{ user.phone || 'No especificado' }}</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <ion-icon name="calendar"></ion-icon>
+          <div class="info-text">
+            <p class="label">Miembro desde</p>
+            <p class="value">{{ user.created_at | date: 'short' }}</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="actions">
+      <ion-button expand="block" color="danger" fill="outline" (click)="logout()">
+        <ion-icon slot="start" name="log-out"></ion-icon>
+        Cerrar Sesión
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

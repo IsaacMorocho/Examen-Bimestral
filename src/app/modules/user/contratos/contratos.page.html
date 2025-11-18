@@ -1,0 +1,70 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button (click)="goBack()" text="" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Contrataciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="contratos-content">
+  <div class="content-inner">
+    <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+
+    <div *ngIf="!isLoading" class="contratos-list">
+      <ion-card *ngFor="let contrato of (contrataciones$ | async)" class="contrato-card">
+        <ion-card-content>
+          <div class="contrato-header">
+            <div class="plan-info">
+              <h2>{{ contrato.plan_nombre }}</h2>
+              <p class="price">${{ contrato.precio_mensual }}/mes</p>
+            </div>
+            <ion-badge [color]="getStatusBadge(contrato.estado)" class="status-badge">
+              {{ getStatusText(contrato.estado) }}
+            </ion-badge>
+          </div>
+
+          <div class="contrato-details">
+            <div class="detail-item">
+              <ion-icon name="calendar"></ion-icon>
+              <span>Contratado: {{ contrato.created_at | date: 'short' }}</span>
+            </div>
+
+            <div class="detail-item" *ngIf="contrato.numero_linea">
+              <ion-icon name="phone"></ion-icon>
+              <span>Línea: {{ contrato.numero_linea }}</span>
+            </div>
+
+            <div class="detail-item" *ngIf="contrato.estado === 'activa'">
+              <ion-icon name="checkmark-circle"></ion-icon>
+              <span>Plan activo</span>
+            </div>
+          </div>
+
+          <div class="contrato-actions" *ngIf="contrato.estado !== 'cancelada'">
+            <ion-button 
+              fill="solid" 
+              color="primary"
+              size="small"
+              (click)="goToChat(contrato.id)"
+              class="chat-btn"
+            >
+              <ion-icon slot="start" name="chatbubble"></ion-icon>
+              Chat con Asesor
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <div *ngIf="!(contrataciones$ | async) || (contrataciones$ | async)?.length === 0" class="no-contratos">
+        <ion-icon name="briefcase-outline"></ion-icon>
+        <h3>Sin contrataciones</h3>
+        <p>Aún no tienes planes contratados. Explora nuestro catálogo para contratar uno.</p>
+        <ion-button color="primary" [routerLink]="['/catalog']">
+          <ion-icon slot="start" name="add-circle"></ion-icon>
+          Explorar Planes
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

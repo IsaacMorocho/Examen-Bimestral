@@ -1,0 +1,100 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToProfile()">
+        <ion-icon name="person-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-content">
+  <!-- Welcome Section -->
+  <div class="welcome-section" *ngIf="currentUser$ | async as user">
+    <h1>¡Bienvenido, {{ user.full_name }}!</h1>
+    <p>Gestiona tus planes y contrataciones</p>
+  </div>
+
+  <!-- Statistics -->
+  <div class="stats-grid" *ngIf="stats$ | async as stats">
+    <ion-card class="stat-card">
+      <div class="stat-number">{{ stats.totalPlanes }}</div>
+      <div class="stat-label">Planes Activos</div>
+    </ion-card>
+    <ion-card class="stat-card">
+      <div class="stat-number">{{ stats.contratacionesPendientes }}</div>
+      <div class="stat-label">Pendientes</div>
+    </ion-card>
+    <ion-card class="stat-card">
+      <div class="stat-number">{{ stats.contratacionesActivas }}</div>
+      <div class="stat-label">Activas</div>
+    </ion-card>
+  </div>
+
+  <!-- Main Actions -->
+  <div class="actions-section">
+    <ion-card class="action-card" (click)="goToCreatePlan()">
+      <ion-card-content>
+        <div class="action-icon">
+          <ion-icon name="add-circle"></ion-icon>
+        </div>
+        <h3>Crear Nuevo Plan</h3>
+        <p>Añade un plan móvil a tu catálogo</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="action-card" (click)="goToPendingContracts()">
+      <ion-card-content>
+        <div class="action-icon">
+          <ion-icon name="clipboard"></ion-icon>
+        </div>
+        <h3>Contrataciones Pendientes</h3>
+        <p>Revisa las solicitudes de clientes</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="action-card" (click)="goToChatList()">
+      <ion-card-content>
+        <div class="action-icon">
+          <ion-icon name="chatbubbles"></ion-icon>
+        </div>
+        <h3>Conversaciones</h3>
+        <p>Comunícate con tus clientes</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Your Plans -->
+  <div class="plans-section">
+    <h2>Tus Planes</h2>
+    <div class="plans-list">
+      <ion-card 
+        *ngFor="let plan of (planes$ | async)" 
+        class="plan-item"
+      >
+        <div class="plan-header">
+          <h3>{{ plan.nombre }}</h3>
+          <ion-buttons>
+            <ion-button size="small" fill="clear" (click)="goToEditPlan(plan.id)">
+              <ion-icon slot="icon-only" name="pencil"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </div>
+        <p class="price">${{ plan.precio }}/mes</p>
+        <div class="plan-details">
+          <span>{{ plan.datos_moviles }}</span>
+          <span>{{ plan.minutos_voz }}</span>
+        </div>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Logout -->
+  <div class="logout-section">
+    <ion-button expand="block" color="danger" fill="outline" (click)="logout()">
+      <ion-icon slot="start" name="log-out"></ion-icon>
+      Cerrar Sesión
+    </ion-button>
+  </div>
+</ion-content>

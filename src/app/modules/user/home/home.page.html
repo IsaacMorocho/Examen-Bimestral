@@ -1,0 +1,98 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>Tigo Conecta</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToProfile()">
+        <ion-icon name="person-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="home-content">
+  <!-- User Welcome Card -->
+  <div class="welcome-card" *ngIf="currentUser$ | async as user">
+    <div class="welcome-content">
+      <h1>¡Bienvenido, <span>{{ user.full_name }}</span>!</h1>
+      <p>Explora nuestros planes y gestiona tus contrataciones</p>
+    </div>
+    <div class="welcome-icon">
+      <ion-icon name="hand-left"></ion-icon>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <ion-card class="action-card" (click)="goToMisContrataciones()">
+      <ion-card-content>
+        <ion-icon name="document-text"></ion-icon>
+        <h3>Mis Contrataciones</h3>
+        <p>Ver tus planes activos</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="action-card" (click)="goToCatalog()">
+      <ion-card-content>
+        <ion-icon name="add-circle"></ion-icon>
+        <h3>Nuevo Plan</h3>
+        <p>Explorar más planes</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Featured Plans -->
+  <div class="featured-section">
+    <h2>Planes Recomendados</h2>
+    <ion-slides [options]="slideOpts" class="featured-slider">
+      <ion-slide *ngFor="let plan of (planes$ | async) | slice:0:3">
+        <ion-card class="featured-card" (click)="goToPlanDetail(plan.id)">
+          <div class="featured-image" *ngIf="plan.imagen_url">
+            <img [src]="plan.imagen_url" [alt]="plan.nombre">
+          </div>
+          <div class="featured-image" *ngIf="!plan.imagen_url" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <ion-icon name="phone-portrait"></ion-icon>
+          </div>
+          <ion-card-content>
+            <h3>{{ plan.nombre }}</h3>
+            <p class="plan-price">${{ plan.precio }}/mes</p>
+            <ion-chip size="small" [class]="'segment-' + plan.segmento.toLowerCase()">
+              <ion-label>{{ plan.segmento }}</ion-label>
+            </ion-chip>
+          </ion-card-content>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <!-- All Plans Grid -->
+  <div class="all-plans-section">
+    <h2>Todos Nuestros Planes</h2>
+    <div class="plans-grid">
+      <ion-card 
+        *ngFor="let plan of (planes$ | async)" 
+        class="plan-card"
+        (click)="goToPlanDetail(plan.id)"
+      >
+        <div class="plan-image-container" *ngIf="plan.imagen_url">
+          <img [src]="plan.imagen_url" [alt]="plan.nombre">
+        </div>
+        <div class="plan-image-container" *ngIf="!plan.imagen_url" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+          <ion-icon name="phone-portrait"></ion-icon>
+        </div>
+        <ion-card-content>
+          <h3>{{ plan.nombre }}</h3>
+          <p class="price">${{ plan.precio }}/mes</p>
+          <p class="description">{{ plan.descripcion | slice:0:50 }}...</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Logout Button -->
+  <div class="logout-section">
+    <ion-button expand="block" color="danger" fill="outline" (click)="logout()">
+      <ion-icon slot="start" name="log-out"></ion-icon>
+      Cerrar Sesión
+    </ion-button>
+  </div>
+</ion-content>

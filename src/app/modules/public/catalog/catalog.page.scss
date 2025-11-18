@@ -1,0 +1,222 @@
+:host {
+  --background: #f7f8fa;
+}
+
+ion-toolbar {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --border-color: transparent;
+}
+
+.catalog-content {
+  --background: #f7f8fa;
+}
+
+.header-section {
+  padding: 24px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+
+  h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-size: 14px;
+    opacity: 0.9;
+    margin: 0;
+  }
+}
+
+.segment-filter {
+  --background: #ffffff;
+  margin: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  ion-segment-button {
+    --background-active: #667eea;
+    --color-active: white;
+    --indicator-color: transparent;
+    font-weight: 500;
+  }
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 16px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.plan-card-item {
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  &.basico {
+    border-top: 4px solid #3498db;
+
+    .card-badge {
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    }
+  }
+
+  &.medio {
+    border-top: 4px solid #f39c12;
+
+    .card-badge {
+      background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    }
+  }
+
+  &.premium {
+    border-top: 4px solid #e74c3c;
+
+    .card-badge {
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    }
+  }
+}
+
+.card-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  z-index: 10;
+}
+
+.card-image-container {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  .plan-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .plan-image-placeholder {
+    font-size: 80px;
+    color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.card-content {
+  padding: 16px;
+}
+
+.plan-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+}
+
+.plan-description {
+  font-size: 13px;
+  color: #7f8c8d;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.price-section {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 12px;
+
+  .price {
+    font-size: 28px;
+    font-weight: bold;
+    color: #667eea;
+  }
+
+  .period {
+    font-size: 13px;
+    color: #7f8c8d;
+  }
+}
+
+.highlights {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+
+  ion-chip {
+    margin: 0;
+    height: auto;
+    padding: 4px 8px;
+    font-size: 12px;
+
+    ion-icon {
+      margin-right: 4px;
+    }
+  }
+}
+
+.view-btn {
+  margin-top: 12px;
+  height: 40px;
+  font-weight: 600;
+}
+
+.no-plans {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #7f8c8d;
+  text-align: center;
+
+  ion-icon {
+    font-size: 64px;
+    color: #bdc3c7;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 16px;
+    margin: 0;
+  }
+}
+
+ion-back-button {
+  color: white;
+}
+
+ion-title {
+  color: white;
+  font-weight: bold;
+}
+
+ion-button[color="primary"] {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}

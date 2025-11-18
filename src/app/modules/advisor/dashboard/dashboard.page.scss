@@ -1,0 +1,180 @@
+ion-toolbar {
+  --background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  --border-color: transparent;
+}
+
+ion-title {
+  color: white;
+  font-weight: bold;
+}
+
+ion-button {
+  color: white;
+}
+
+.dashboard-content {
+  --background: #f7f8fa;
+}
+
+.welcome-section {
+  padding: 24px 16px;
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: white;
+  margin-bottom: 16px;
+
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-size: 14px;
+    margin: 0;
+    opacity: 0.9;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 0 16px 16px;
+
+  .stat-card {
+    margin: 0;
+    border-radius: 8px;
+    text-align: center;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: bold;
+      color: #e74c3c;
+      padding: 12px 0 4px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #7f8c8d;
+      padding: 0 0 12px;
+      font-weight: 600;
+    }
+  }
+}
+
+.actions-section {
+  padding: 0 16px 16px;
+
+  .action-card {
+    margin: 0 0 12px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    ion-card-content {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .action-icon {
+        font-size: 40px;
+        color: #e74c3c;
+        min-width: 40px;
+      }
+
+      h3 {
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0 0 4px 0;
+        color: #2c3e50;
+      }
+
+      p {
+        font-size: 12px;
+        color: #7f8c8d;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.plans-section {
+  padding: 16px;
+
+  h2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0 0 12px 0;
+  }
+
+  .plans-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .plan-item {
+    margin: 0;
+    padding: 12px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    .plan-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+
+      h3 {
+        font-size: 14px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin: 0;
+      }
+
+      ion-buttons {
+        margin: 0;
+      }
+    }
+
+    .price {
+      font-size: 16px;
+      font-weight: bold;
+      color: #e74c3c;
+      margin: 4px 0 8px;
+    }
+
+    .plan-details {
+      display: flex;
+      gap: 8px;
+      font-size: 11px;
+      color: #7f8c8d;
+
+      span {
+        background: #f0f0f0;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+.logout-section {
+  padding: 16px;
+  margin-bottom: 20px;
+
+  ion-button {
+    height: 48px;
+    font-weight: 600;
+  }
+}

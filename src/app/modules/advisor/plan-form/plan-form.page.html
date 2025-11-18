@@ -1,0 +1,224 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button (click)="goBack()" text="" defaultHref="/advisor/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ editingPlanId ? 'Editar Plan' : 'Crear Plan' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="plan-form-content">
+  <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+
+  <form [formGroup]="planForm" (ngSubmit)="submitForm()" *ngIf="!isLoading" class="form-container">
+    <!-- Image Upload Section -->
+    <div class="image-section">
+      <div class="image-upload-area" *ngIf="!imagePreview">
+        <ion-icon name="image"></ion-icon>
+        <p>Añade una imagen promocional</p>
+        <input 
+          type="file" 
+          accept="image/jpeg,image/png" 
+          (change)="onImageSelected($event)"
+          hidden
+          #imageInput
+        >
+        <ion-button 
+          type="button"
+          color="primary" 
+          size="small"
+          (click)="imageInput.click()"
+        >
+          <ion-icon slot="start" name="cloud-upload"></ion-icon>
+          Subir Imagen
+        </ion-button>
+      </div>
+
+      <div class="image-preview" *ngIf="imagePreview">
+        <img [src]="imagePreview" alt="Vista previa">
+        <ion-button 
+          type="button"
+          color="danger" 
+          size="small"
+          (click)="imagePreview = null; selectedImage = null"
+        >
+          <ion-icon slot="start" name="trash"></ion-icon>
+          Cambiar
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Basic Information -->
+    <ion-card class="form-card">
+      <ion-card-header>
+        <ion-card-title>Información Básica</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item class="form-item">
+          <ion-label position="floating">Nombre del Plan</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="nombre"
+            placeholder="Ej: Plan Smart 5GB"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="floating">Descripción</ion-label>
+          <ion-textarea 
+            formControlName="descripcion"
+            placeholder="Describe el plan..."
+            rows="3"
+          ></ion-textarea>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="floating">Precio Mensual ($)</ion-label>
+          <ion-input 
+            type="number" 
+            formControlName="precio"
+            placeholder="15.99"
+            step="0.01"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label>Segmento</ion-label>
+          <ion-select formControlName="segmento">
+            <ion-select-option *ngFor="let seg of segmentos" [value]="seg">
+              {{ seg }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Technical Specifications -->
+    <ion-card class="form-card">
+      <ion-card-header>
+        <ion-card-title>Características Técnicas</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item class="form-item">
+          <ion-label position="floating">Datos Móviles</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="datos_moviles"
+            placeholder="Ej: 5 GB mensuales"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="floating">Minutos de Voz</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="minutos_voz"
+            placeholder="Ej: 100 minutos nacionales"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="floating">SMS</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="sms"
+            placeholder="Ej: Ilimitados a nivel nacional"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="floating">Velocidad 4G</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="velocidad_4g"
+            placeholder="Ej: Hasta 50 Mbps"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="floating">Velocidad 5G (Opcional)</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="velocidad_5g"
+            placeholder="Ej: Hasta 300 Mbps"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="floating">Redes Sociales</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="redes_sociales"
+            placeholder="Ej: Ilimitadas"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="floating">WhatsApp</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="whatsapp"
+            placeholder="Ej: Ilimitado"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="floating">Llamadas Internacionales</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="llamadas_internacionales"
+            placeholder="Ej: $0.15/min"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="floating">Roaming</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="roaming"
+            placeholder="Ej: No incluido"
+          ></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Status -->
+    <ion-card class="form-card">
+      <ion-card-content>
+        <ion-item>
+          <ion-checkbox 
+            formControlName="activo"
+            slot="start"
+          ></ion-checkbox>
+          <ion-label>Plan Activo</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Submit Buttons -->
+    <div class="button-group">
+      <ion-button 
+        expand="block" 
+        color="primary" 
+        type="submit"
+        [disabled]="planForm.invalid || isSubmitting"
+        class="submit-btn"
+      >
+        <ion-spinner *ngIf="isSubmitting" name="dots"></ion-spinner>
+        <span *ngIf="!isSubmitting">
+          {{ editingPlanId ? 'Actualizar Plan' : 'Crear Plan' }}
+        </span>
+      </ion-button>
+
+      <ion-button 
+        expand="block" 
+        color="medium" 
+        fill="outline"
+        type="button"
+        (click)="goBack()"
+      >
+        Cancelar
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

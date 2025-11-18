@@ -1,0 +1,151 @@
+ion-toolbar {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --border-color: transparent;
+}
+
+ion-title {
+  color: white;
+  font-weight: bold;
+}
+
+ion-back-button {
+  color: white;
+}
+
+.contratos-content {
+  --background: #f7f8fa;
+}
+
+.content-inner {
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contratos-list {
+  padding: 16px;
+}
+
+.contrato-card {
+  margin: 0 0 16px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #667eea;
+
+  ion-card-content {
+    padding: 16px;
+  }
+}
+
+.contrato-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+
+  .plan-info {
+    flex: 1;
+
+    h2 {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0 0 4px 0;
+      color: #2c3e50;
+    }
+
+    .price {
+      font-size: 16px;
+      font-weight: bold;
+      color: #667eea;
+      margin: 0;
+    }
+  }
+
+  .status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 12px;
+  }
+}
+
+.contrato-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #555;
+
+  ion-icon {
+    color: #667eea;
+    font-size: 18px;
+  }
+}
+
+.contrato-actions {
+  display: flex;
+  gap: 8px;
+
+  .chat-btn {
+    flex: 1;
+    height: 40px;
+    font-weight: 600;
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+}
+
+.no-contratos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #7f8c8d;
+  text-align: center;
+
+  ion-icon {
+    font-size: 64px;
+    color: #bdc3c7;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-size: 13px;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+  }
+
+  ion-button {
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+}
+
+ion-spinner {
+  --color: #667eea;
+}

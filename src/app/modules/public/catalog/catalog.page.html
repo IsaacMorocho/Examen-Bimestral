@@ -1,0 +1,86 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/splash" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nuestros Planes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onProfileClick()" fill="solid">
+        <ion-icon name="person-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="catalog-content">
+  <div class="header-section">
+    <h1>Planes Móviles Tigo Ecuador</h1>
+    <p>Elige el plan perfecto para tu estilo de vida</p>
+  </div>
+
+  <ion-segment [value]="selectedSegment" (ionChange)="filterBySegment($event)" class="segment-filter">
+    <ion-segment-button value="todos">
+      <ion-label>Todos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Básico">
+      <ion-label>Básico</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Medio">
+      <ion-label>Medio</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Premium">
+      <ion-label>Premium</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div class="plans-grid">
+    <ion-card 
+      *ngFor="let plan of (planes$ | async) as plans; let i = index"
+      [class]="'plan-card ' + getSegmentClass(plan.segmento)"
+      (click)="goToDetail(plan.id)"
+      class="plan-card-item"
+    >
+      <div class="card-badge">{{ plan.segmento }}</div>
+      
+      <div class="card-image-container" *ngIf="plan.imagen_url">
+        <img [src]="plan.imagen_url" [alt]="plan.nombre" class="plan-image">
+      </div>
+      <div class="card-image-container" *ngIf="!plan.imagen_url">
+        <div class="plan-image-placeholder">
+          <ion-icon name="phone-portrait"></ion-icon>
+        </div>
+      </div>
+
+      <ion-card-content class="card-content">
+        <h2 class="plan-name">{{ plan.nombre }}</h2>
+        <p class="plan-description">{{ plan.descripcion }}</p>
+
+        <div class="price-section">
+          <span class="price">${{ plan.precio }}</span>
+          <span class="period">/mes</span>
+        </div>
+
+        <div class="highlights">
+          <ion-chip size="small">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-label>{{ plan.datos_moviles }}</ion-label>
+          </ion-chip>
+          <ion-chip size="small">
+            <ion-icon name="call"></ion-icon>
+            <ion-label>{{ plan.minutos_voz }}</ion-label>
+          </ion-chip>
+        </div>
+
+        <ion-button expand="block" color="primary" class="view-btn">
+          Ver Detalles
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="!(planes$ | async) || (planes$ | async)?.length === 0" class="no-plans">
+    <ion-icon name="sad-outline"></ion-icon>
+    <p>No hay planes disponibles en este momento</p>
+  </div>
+</ion-content>

@@ -1,0 +1,172 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button (click)="goBack()" text="" defaultHref="/catalog"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle del Plan</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="plan-detail-content">
+  <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+
+  <div *ngIf="!isLoading && plan" class="plan-details">
+    <div class="plan-header" [class]="'header-' + plan.segmento.toLowerCase()">
+      <div *ngIf="plan.imagen_url" class="plan-image-large">
+        <img [src]="plan.imagen_url" [alt]="plan.nombre">
+      </div>
+      <div *ngIf="!plan.imagen_url" class="plan-image-placeholder">
+        <ion-icon name="phone-portrait"></ion-icon>
+      </div>
+      <div class="header-info">
+        <h1 class="plan-title">{{ plan.nombre }}</h1>
+        <p class="plan-segment">{{ plan.segmento }}</p>
+      </div>
+    </div>
+
+    <div class="price-card">
+      <div class="price-large">
+        <span class="currency">$</span><span class="amount">{{ plan.precio }}</span>
+        <span class="period">/mes</span>
+      </div>
+    </div>
+
+    <div class="description-section">
+      <p class="description-text">{{ plan.descripcion }}</p>
+    </div>
+
+    <div class="features-section">
+      <h2>Características Principales</h2>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <ion-icon name="cellular"></ion-icon>
+        </div>
+        <div class="feature-content">
+          <p class="feature-title">Datos Móviles</p>
+          <p class="feature-value">{{ plan.datos_moviles }}</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <ion-icon name="call"></ion-icon>
+        </div>
+        <div class="feature-content">
+          <p class="feature-title">Minutos de Voz</p>
+          <p class="feature-value">{{ plan.minutos_voz }}</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <ion-icon name="mail"></ion-icon>
+        </div>
+        <div class="feature-content">
+          <p class="feature-title">SMS</p>
+          <p class="feature-value">{{ plan.sms }}</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <ion-icon name="speed"></ion-icon>
+        </div>
+        <div class="feature-content">
+          <p class="feature-title">Velocidad 4G</p>
+          <p class="feature-value">{{ plan.velocidad_4g }}</p>
+        </div>
+      </div>
+
+      <div class="feature-item" *ngIf="plan.velocidad_5g">
+        <div class="feature-icon">
+          <ion-icon name="flash"></ion-icon>
+        </div>
+        <div class="feature-content">
+          <p class="feature-title">Velocidad 5G</p>
+          <p class="feature-value">{{ plan.velocidad_5g }}</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <ion-icon name="logo-instagram"></ion-icon>
+        </div>
+        <div class="feature-content">
+          <p class="feature-title">Redes Sociales</p>
+          <p class="feature-value">{{ plan.redes_sociales }}</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <ion-icon name="logo-whatsapp"></ion-icon>
+        </div>
+        <div class="feature-content">
+          <p class="feature-title">WhatsApp</p>
+          <p class="feature-value">{{ plan.whatsapp }}</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <ion-icon name="earth"></ion-icon>
+        </div>
+        <div class="feature-content">
+          <p class="feature-title">Llamadas Internacionales</p>
+          <p class="feature-value">{{ plan.llamadas_internacionales }}</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <ion-icon name="airplane"></ion-icon>
+        </div>
+        <div class="feature-content">
+          <p class="feature-title">Roaming</p>
+          <p class="feature-value">{{ plan.roaming }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-section">
+      <ion-button 
+        *ngIf="isAuthenticated$ | async" 
+        expand="block" 
+        color="success"
+        size="large"
+        (click)="contratarPlan()"
+        class="contract-btn"
+      >
+        <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+        Contratar Ahora
+      </ion-button>
+
+      <ion-button 
+        *ngIf="!(isAuthenticated$ | async)" 
+        expand="block" 
+        color="primary"
+        size="large"
+        (click)="goToLogin()"
+        class="login-btn"
+      >
+        <ion-icon slot="start" name="log-in"></ion-icon>
+        Inicia Sesión para Contratar
+      </ion-button>
+
+      <ion-button 
+        expand="block" 
+        color="medium"
+        fill="outline"
+        (click)="goBack()"
+      >
+        Volver al Catálogo
+      </ion-button>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && !plan" class="no-plan">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <p>Plan no encontrado</p>
+  </div>
+</ion-content>

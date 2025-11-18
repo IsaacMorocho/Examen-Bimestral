@@ -1,0 +1,148 @@
+ion-toolbar {
+  --background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  --border-color: transparent;
+}
+
+ion-title {
+  color: white;
+  font-weight: bold;
+}
+
+ion-back-button {
+  color: white;
+}
+
+.chat-list-content {
+  --background: #f7f8fa;
+}
+
+.content-inner {
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.conversations {
+  padding: 16px;
+}
+
+.conversation-card {
+  margin: 0 0 12px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 4px solid #e74c3c;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  ion-card-content {
+    padding: 16px;
+  }
+}
+
+.conversation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+
+  .user-info {
+    flex: 1;
+
+    h3 {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 0 0 4px 0;
+      color: #2c3e50;
+    }
+
+    .plan-name {
+      font-size: 12px;
+      color: #7f8c8d;
+      margin: 0;
+    }
+  }
+
+  .unread-badge {
+    background: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+  }
+}
+
+.last-message {
+  font-size: 13px;
+  color: #555;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.conversation-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #ecf0f1;
+
+  .timestamp {
+    font-size: 11px;
+    color: #7f8c8d;
+  }
+
+  ion-icon {
+    color: #e74c3c;
+  }
+}
+
+.no-conversations {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #7f8c8d;
+  text-align: center;
+
+  ion-icon {
+    font-size: 64px;
+    color: #bdc3c7;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-size: 13px;
+    margin: 0;
+  }
+}
+
+ion-spinner {
+  --color: #e74c3c;
+}

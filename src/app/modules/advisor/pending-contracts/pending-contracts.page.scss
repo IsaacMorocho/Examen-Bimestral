@@ -1,0 +1,146 @@
+ion-toolbar {
+  --background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  --border-color: transparent;
+}
+
+ion-title {
+  color: white;
+  font-weight: bold;
+}
+
+ion-back-button {
+  color: white;
+}
+
+.pending-content {
+  --background: #f7f8fa;
+}
+
+.content-inner {
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pending-list {
+  padding: 16px;
+}
+
+.pending-card {
+  margin: 0 0 16px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #e74c3c;
+
+  ion-card-content {
+    padding: 16px;
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+
+  h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+    color: #2c3e50;
+  }
+
+  .client-name {
+    font-size: 12px;
+    color: #7f8c8d;
+    margin: 0;
+  }
+
+  ion-badge {
+    height: auto;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #555;
+
+  ion-icon {
+    color: #e74c3c;
+    font-size: 18px;
+  }
+}
+
+.card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+
+  ion-button {
+    margin: 0;
+    height: 40px;
+    font-weight: 600;
+    font-size: 12px;
+
+    &[color="success"] {
+      --background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    }
+  }
+}
+
+.no-contracts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #7f8c8d;
+  text-align: center;
+
+  ion-icon {
+    font-size: 64px;
+    color: #bdc3c7;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-size: 13px;
+    margin: 0;
+  }
+}
+
+ion-spinner {
+  --color: #e74c3c;
+}
